@@ -6,14 +6,14 @@ Two PowerShell windows: **A** = Miles screen, **B** = camera program.
 
 **Window A (Miles screen)**
 ```
-cd "C:\Users\fredw\OneDrive\Desktop\GO Autonomous"
+cd "C:\Users\fredw\code\go-autonomous"
 C:\Users\fredw\venvs\goauto\Scripts\python.exe avatar_server.py
 ```
 Open Chrome at http://localhost:8000, then press F11 for full screen.
 
 **Window B (camera program)**
 ```
-cd "C:\Users\fredw\OneDrive\Desktop\GO Autonomous"
+cd "C:\Users\fredw\code\go-autonomous"
 C:\Users\fredw\venvs\goauto\Scripts\python.exe run_guidance.py
 ```
 Wait about 10 s for the video window. Keys (click the video window first): q quit, space pause, e engage conveyor.
