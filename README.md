@@ -15,25 +15,28 @@
 | `tests/` | Hardware-free tests |
 | `roboflow/` | Dataset work, crop tool, `tire_model.pt` (toy-car model) |
 | `archive/` | Original skeleton, superseded by `carwash/` + `run_guidance.py` |
+| `avatar_assets/` | Miles 3D models (`miles_textured.glb` used, `miles_rig.glb` fallback), joint positions, three.js |
+| `set_search_area.py`, `find_cameras.py` | Bench setup helpers |
+| `*.bat` | Setup and start launchers (no hard-coded paths) |
+| `CLAUDE.md` | Project status/context for Claude Code sessions on any PC |
 
-## Setup (once)
-Python environment lives outside OneDrive at `C:\Users\fredw\venvs\goauto` (CPU PyTorch, ultralytics, OpenCV, pyserial).
+## Setup and running
+See **START_HERE.md**. Short version: `setup.bat` once per PC (creates `.venv`,
+installs CPU PyTorch + `requirements.txt`, runs tests), then `start_avatar.bat` and
+`start_guidance.bat`. `run_tool.bat <script> [args]` runs any script with the project Python.
 
-```powershell
-python -m venv C:\Users\fredw\venvs\goauto
-C:\Users\fredw\venvs\goauto\Scripts\python.exe -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
-C:\Users\fredw\venvs\goauto\Scripts\python.exe -m pip install -r requirements.txt
-```
+- `requirements-assets.txt`: extra packages only needed to re-process 3D models (trimesh etc.).
+- **GPU (training PC only):** after setup, swap in CUDA PyTorch:
+  `.venv\Scripts\python.exe -m pip install --force-reinstall torch torchvision --index-url https://download.pytorch.org/whl/cu128`
+  then retrain with `roboflow/train_seed.py`.
 
-## Run (PowerShell, from this folder)
-```powershell
-$py = "C:\Users\fredw\venvs\goauto\Scripts\python.exe"
-& $py avatar_server.py                 # window 1, then open http://localhost:8000
-& $py run_guidance.py                  # window 2, live camera 0
-& $py run_guidance.py --source video.mp4
-& $py calibrate.py                     # replace the placeholder calibration
-& $py -m pytest tests
-```
+## Data that is NOT in git
+| What | Where |
+|---|---|
+| Roboflow dataset (409 toy frames, 409 crops, labels) | Roboflow workspace `curtis-herbsleb-gocarwash-com`, project `object-detection-thctg`; full local copy in the original OneDrive folder `Desktop\GO Autonomous\roboflow` |
+| Model predictions / training runs | Same OneDrive folder (re-creatable with `roboflow/train_seed.py`) |
+| Raw Meshy downloads (STL, untextured GLB) | Meshy account / OneDrive folder `avatar_assets` |
+| Future site video | External drive or cloud storage, not git (too big) |
 
 ## Signals
 `MOVE_LEFT` (shown as TURN WHEEL LEFT), `MOVE_RIGHT` (TURN WHEEL RIGHT), `STRAIGHT`, `STOP`, `CONVEYOR_MOVING`, `WAIT`.

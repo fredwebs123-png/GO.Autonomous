@@ -1,0 +1,3 @@
+trimesh
+fast_simplification
+matplotlib
