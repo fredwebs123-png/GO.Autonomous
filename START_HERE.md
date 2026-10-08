@@ -41,6 +41,6 @@ Wait about 10 s for the video window. Keys (click the video window first): q qui
 
 ## Working on another PC
 1. Install Git for Windows and Python 3.12+.
-2. `git clone <Azure DevOps repo URL> C:\code\go-autonomous` (sign in with your GO Car Wash Microsoft account when asked).
+2. `git clone https://github.com/fredwebs123-png/GO.Autonomous.git C:\code\go-autonomous` (sign in to GitHub when asked; the repo is private, so that account needs access).
 3. Set up Python once (see README "Setup"), then use the commands above with that folder.
 4. Before you start: `git pull`. When done: `git add -A`, `git commit -m "what changed"`, `git push`.

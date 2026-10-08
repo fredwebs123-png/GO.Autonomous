@@ -1,7 +1,6 @@
 # GO Autonomous
 
-Self Loading Program - 
-Camera-guided car wash conveyor positioning. Bench mock-up with a toy car; same code is meant to move to full-scale equipment by swapping the config, calibration and model. Background and history: `HANDOFF.md`, `roboflow/GO_AUTONOMOUS_NOTES.md`.
+**Self Loading Program** - camera-guided car wash conveyor positioning. Bench mock-up with a toy car; same code is meant to move to full-scale equipment by swapping the config, calibration and model. Background and history: `HANDOFF.md`, `roboflow/GO_AUTONOMOUS_NOTES.md`.
 
 ## Layout
 | Path | What |
