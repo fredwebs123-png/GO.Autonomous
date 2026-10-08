@@ -1,0 +1,71 @@
+{
+  "_comment": "Bench mock-up (toy car). Copy this file per site; code stays the same.",
+  "camera": {
+    "source": 1,
+    "resize": null
+  },
+  "model": {
+    "path": "roboflow/tire_model.pt",
+    "conf": 0.5,
+    "imgsz": 640,
+    "device": null,
+    "front_class": "tire_front_driver",
+    "rear_class": "tire_rear_driver",
+    "crop": {
+      "type": "red_car",
+      "pad": 0.35,
+      "search_area": [
+        [
+          317,
+          104
+        ],
+        [
+          639,
+          193
+        ],
+        [
+          568,
+          479
+        ],
+        [
+          1,
+          325
+        ]
+      ]
+    }
+  },
+  "calibration_file": "config/calibration_bench.json",
+  "tracking": {
+    "process_noise": 1.0,
+    "measurement_noise": 4.0
+  },
+  "guidance": {
+    "lateral_tolerance_in": 0.5,
+    "stop_zone_in": 1.0,
+    "required_consecutive_frames": 5,
+    "departure_frames": 10,
+    "rearm_distance_in": 3.0
+  },
+  "conveyor": {
+    "simulate": true,
+    "engage_after_stop_s": 3.0
+  },
+  "outputs": {
+    "console": true,
+    "resend_interval_s": 0.5,
+    "avatar": {
+      "enabled": true,
+      "url": "http://localhost:8000/update"
+    },
+    "arduino": {
+      "enabled": false,
+      "port": "COM6",
+      "baud": 9600
+    }
+  },
+  "display": true,
+  "alignment": {
+    "lateral_in": -0.31,
+    "longitudinal_in": -0.04
+  }
+}

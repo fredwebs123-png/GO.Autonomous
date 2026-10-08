@@ -1,0 +1,6 @@
+path: .
+train: images
+val: images
+names:
+  0: tire_front_driver
+  1: tire_rear_driver

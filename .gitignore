@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Large datasets - these live in Roboflow, re-download from there
+roboflow/export_v2/
+roboflow/cropped/
+roboflow/upload_pack/
+roboflow/upload_zips/
+roboflow/predictions/
+roboflow/runs/
+roboflow/seed_split/
+frames/
+
+# Recorded footage (keep out of git - too big; store on a drive or cloud folder)
+*.mp4
+*.avi
+*.mov
+recordings/
+
+# Raw 3D sources (originals are in Meshy / Downloads)
+avatar_assets/miles.stl
+avatar_assets/miles_v2_raw.glb
+
+# One-off downloads
+files (1).zip
+
+# OS / editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/

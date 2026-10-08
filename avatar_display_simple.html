@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GO Autonomous - Guidance Avatar</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #14181c;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    overflow: hidden;
+  }
+  #avatar-wrap {
+    width: 320px;
+    height: 320px;
+    transition: transform 0.25s ease;
+  }
+  #label {
+    margin-top: 30px;
+    font-size: 56px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+    min-height: 60px;
+  }
+  .lean-left  { transform: rotate(-8deg) translateX(-20px); }
+  .lean-right { transform: rotate(8deg) translateX(20px); }
+  .pulse { animation: pulse 0.5s infinite alternate; }
+  @keyframes pulse {
+    from { transform: scale(1); }
+    to   { transform: scale(1.06); }
+  }
+  #arrow {
+    transition: opacity 0.2s ease;
+  }
+</style>
+</head>
+<body>
+
+<div id="avatar-wrap">
+  <svg viewBox="0 0 200 200" width="320" height="320">
+    <!-- body -->
+    <circle cx="100" cy="120" r="55" fill="#3A7CA5"/>
+    <!-- head -->
+    <circle cx="100" cy="55" r="38" fill="#F4C89B"/>
+    <!-- eyes -->
+    <circle cx="87" cy="50" r="5" fill="#222"/>
+    <circle cx="113" cy="50" r="5" fill="#222"/>
+    <!-- mouth (neutral, overwritten by JS for stop = flat, go = smile) -->
+    <path id="mouth" d="M85 68 Q100 78 115 68" stroke="#222" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- arm indicating direction -->
+    <g id="arrow">
+      <polygon points="100,150 130,175 70,175" fill="#FFD447"/>
+    </g>
+  </svg>
+</div>
+
+<div id="label">Waiting...</div>
+
+<script>
+async function poll() {
+  try {
+    const res = await fetch('/status', {cache: 'no-store', signal: AbortSignal.timeout(1000)});
+    const data = await res.json();
+    applySignal(data.signal);
+  } catch (e) {
+    // Fail-safe: server unreachable -> never keep showing an old "go" signal.
+    applySignal("WAIT");
+    document.getElementById('label').innerText = "Connecting...";
+  }
+  setTimeout(poll, 300);
+}
+
+function applySignal(signal) {
+  const wrap = document.getElementById('avatar-wrap');
+  const label = document.getElementById('label');
+  const mouth = document.getElementById('mouth');
+  const arrow = document.getElementById('arrow');
+
+  wrap.className = "";
+  arrow.style.opacity = 1;
+  mouth.setAttribute('d', 'M85 68 Q100 78 115 68'); // default smile-ish
+
+  switch (signal) {
+    case "MOVE_LEFT":
+      wrap.className = "lean-left";
+      label.innerText = "\u2190 TURN WHEEL LEFT";
+      arrow.setAttribute('transform', 'rotate(-90 100 160)');
+      break;
+    case "MOVE_RIGHT":
+      wrap.className = "lean-right";
+      label.innerText = "TURN WHEEL RIGHT \u2192";
+      arrow.setAttribute('transform', 'rotate(90 100 160)');
+      break;
+    case "STRAIGHT":
+      label.innerText = "STRAIGHT AHEAD";
+      arrow.setAttribute('transform', '');
+      break;
+    case "STOP":
+      wrap.className = "pulse";
+      label.innerText = "STOP";
+      mouth.setAttribute('d', 'M85 70 L115 70'); // flat mouth
+      arrow.style.opacity = 0;
+      break;
+    case "CONVEYOR_MOVING":
+      label.innerText = "ENJOY YOUR WASH!";
+      arrow.style.opacity = 0;
+      break;
+    default:
+      label.innerText = "Waiting...";
+      arrow.style.opacity = 0;
+  }
+}
+
+poll();
+</script>
+
+</body>
+</html>
